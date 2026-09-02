@@ -1,5 +1,9 @@
 # Hackathon submission copy
 
+- **Live application:** <https://vgpu-webmcp.vercel.app/examples/fft-ocean-surface>
+- **Public repository:** <https://github.com/ihansel/vgpu-webmcp>
+- **Narrated demo (1:42):** <https://vgpu-webmcp.vercel.app/webmcp-agent-lab-demo.mp4>
+
 ## Project name
 
 vGPU WebMCP Agent Lab
@@ -43,4 +47,4 @@ This project is a focused fork of `vercel-labs/vgpu`, based on commit `671d1be9e
 
 ## Setup for judges
 
-No account or test credentials are required. Open an enabled example in the submitted live site using ChatGPT's supported in-app browser or Chrome 149+ with WebMCP testing enabled. WebGPU and a secure context are required for the renderer; the site remains usable without WebMCP.
+No account or test credentials are required. Open an enabled example at <https://vgpu-webmcp.vercel.app> using ChatGPT's supported in-app browser or Chrome 149+ with WebMCP testing enabled. WebGPU and a secure context are required for the renderer; the site remains usable without WebMCP.

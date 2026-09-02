@@ -5,6 +5,7 @@
 .turbo/**
 artifacts/**
 coverage/**
+demo-video/**
 .git/**
 .env*
 *.log

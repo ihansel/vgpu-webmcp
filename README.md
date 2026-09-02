@@ -17,10 +17,10 @@ vgpu is a TypeScript library for WebGPU: typed shader imports, a tiny gpu-first 
 
 ## WebMCP Agent Lab fork
 
-This hackathon fork adds a human-visible WebMCP control and benchmarking layer to two live examples while preserving the existing vGPU library, gallery, documentation, conventional MCP server, MIT license, and attribution.
+This hackathon fork adds a human-visible WebMCP control and benchmarking layer to two live examples while preserving the existing vGPU library, gallery, documentation, conventional MCP server, MIT license, and attribution. [Open the live Agent Lab](https://vgpu-webmcp.vercel.app/examples/fft-ocean-surface) or [watch the 1:42 narrated demo](https://vgpu-webmcp.vercel.app/webmcp-agent-lab-demo.mp4).
 
-- [FFT ocean surface](/examples/fft-ocean-surface): inspect and batch-edit the real wave, lighting, motion, and render-scale state; compare bounded Performance, Balanced, and Storm at dusk profiles.
-- [Anti-Aliasing](/examples/anti-aliasing): compare Off, MSAA 4×, SSAA 2×, and FXAA at the current canvas size.
+- [FFT ocean surface](https://vgpu-webmcp.vercel.app/examples/fft-ocean-surface): inspect and batch-edit the real wave, lighting, motion, and render-scale state; compare bounded Performance, Balanced, and Storm at dusk profiles.
+- [Anti-Aliasing](https://vgpu-webmcp.vercel.app/examples/anti-aliasing): compare Off, MSAA 4×, SSAA 2×, and FXAA at the current canvas size.
 - Six compact page tools cover capabilities, current state, validated changes, reset, bounded benchmarks, and a persistent visible recommendation.
 - The existing `lil-gui`, renderer, canvas, and WebMCP tools share one state path. No DOM clicking, arbitrary code or shader execution, screenshots, pixel buffers, or detailed GPU identifiers are exposed.
 
@@ -33,7 +33,7 @@ Conventional MCP and WebMCP serve different moments:
 | Knows published source and documentation | Knows current visible control state, canvas size, and short local frame-time samples |
 | Cannot manipulate the current renderer | Updates the same state the user sees and can continue editing |
 
-The exact upstream baseline is recorded in [UPSTREAM_BASE.md](./UPSTREAM_BASE.md). See the [architecture note](./docs/webmcp-agent-lab-architecture.md), [security and privacy model](./docs/webmcp-security-and-privacy.md), [hackathon submission copy](./docs/hackathon-submission.md), and [under-three-minute demo script](./docs/demo-script.md).
+The exact upstream baseline is recorded in [UPSTREAM_BASE.md](./UPSTREAM_BASE.md). See the [architecture note](./docs/webmcp-agent-lab-architecture.md), [security and privacy model](./docs/webmcp-security-and-privacy.md), [hackathon submission copy](./docs/hackathon-submission.md), [under-three-minute demo script](./docs/demo-script.md), and editable [Remotion demo source](./demo-video/README.md).
 
 ### Run the Agent Lab locally
 

@@ -1,5 +1,7 @@
 # Demo script — 2 minutes 40 seconds
 
+The rendered 1 minute 42 second narrated overview is available at <https://vgpu-webmcp.vercel.app/webmcp-agent-lab-demo.mp4>. The longer script below is the live presentation version.
+
 ## 0:00–0:18 — Set up the contrast
 
 “vGPU already has a conventional MCP server that helps coding agents find documentation and verified examples. But it cannot see the scene running in this tab. WebMCP turns the page itself into a safe live collaborator.”

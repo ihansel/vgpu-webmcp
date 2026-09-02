@@ -1,0 +1,11 @@
+vGPU already helps coding agents find documentation and verified examples through a conventional MCP server. But that server cannot see the scene running in the user's current tab.
+
+The WebMCP Agent Lab closes that last mile. On the live FFT ocean page, the agent discovers thirteen public controls, reads the real renderer state, and applies validated changes to the same objects used by the visible canvas and lil-gui.
+
+For the hero journey, the agent compares three bounded profiles: Performance, Balanced, and Storm at dusk. Each test samples browser frame delivery for a fixed duration, reports median and ninety-fifth percentile frame time, approximate frames per second, and slow-frame ratio, then restores the user's starting state. Here, all three stayed smooth, so the agent applied the dramatic storm profile and left its measured recommendation visible on the page.
+
+The anti-aliasing example makes the quality trade-off concrete. Off, four-times M S A A, two-times S S A A, and F X A A run sequentially at the current canvas size. The agent chooses a tested option, applies it, and the person can still adjust or reset it manually.
+
+This is application logic, not D O M clicking. The same-origin iframe bridge checks origin, preview session, example slug, protocol version, and request identity. Inputs are range-validated, benchmarks are cancellable and time-bounded, and no arbitrary code, screenshots, pixels, or detailed G P U identifiers are exposed.
+
+Conventional MCP teaches the agent about vGPU. WebMCP lets the agent and person collaborate with the live vGPU page.
