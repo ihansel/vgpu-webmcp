@@ -12,5 +12,5 @@ export const meta = {
     'responsive-canvas',
   ],
   thumb: { warmupFrames: 60, dt: 1 / 60, time: 1.2 },
-  files: ['index.tsx', 'renderer.ts', 'scene.ts', 'scene.wgsl', 'resolve.wgsl', 'fxaa.wgsl'],
+  files: ['index.tsx', 'renderer.ts', 'webmcp.ts', 'scene.ts', 'scene.wgsl', 'resolve.wgsl', 'fxaa.wgsl'],
 } as const;

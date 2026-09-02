@@ -3,6 +3,7 @@ import { clock, frameLoop, surface, type Gpu, type Surface } from "vgpu";
 import { orbitControls, perspectiveCamera } from "vgpu/scene";
 
 import { buildOcean, OCEAN_CAMERA, type OceanScene } from "./scene";
+import { createOceanWebMcpController } from "./webmcp";
 
 interface RendererOptions {
   readonly canvas: HTMLCanvasElement;
@@ -24,6 +25,8 @@ export function createRenderer({ canvas }: RendererOptions) {
   let gui: GUI | undefined;
   let loop: { stop(): void } | undefined;
   let unsubscribeResize: (() => void) | undefined;
+  let refreshGui = () => {};
+  let webMcp: ReturnType<typeof createOceanWebMcpController> | undefined;
   const view: ViewSettings = { autoRotate: false, rotateSpeed: 0.12 };
 
   function dispose(): void {
@@ -89,7 +92,23 @@ export function createRenderer({ canvas }: RendererOptions) {
     });
     const container = canvas.parentElement ?? undefined;
     gui = new GUI({ title: "Ocean", container });
-    configureGui(gui, scene, view, () => guard(() => scene?.rebuildSpectrum()));
+    webMcp = createOceanWebMcpController({
+      canvas,
+      params: scene.params,
+      view,
+      rebuildSpectrum: () => guard(() => scene?.rebuildSpectrum()),
+      resizeQuality: () => resizeScene(),
+      refreshGui: () => refreshGui(),
+      isDisposed: () => disposed,
+    });
+    refreshGui = configureGui(
+      gui,
+      scene,
+      view,
+      () => guard(() => scene?.rebuildSpectrum()),
+      webMcp.notifyManualChange,
+      resizeScene,
+    );
     unsubscribeResize = output.onResize(resizeScene);
 
     const time = clock(gpu);
@@ -117,15 +136,17 @@ export function createRenderer({ canvas }: RendererOptions) {
     fail(error);
   });
 
-  return { ready, dispose };
+  return { ready, dispose, getWebMcpController: () => webMcp?.controller };
 }
 
 export function configureGui(
   gui: GUI,
   scene: OceanScene,
   view: ViewSettings,
-  rebuild: () => void
-): void {
+  rebuild: () => void,
+  notifyChange: () => void = () => {},
+  resizeQuality: () => void = () => {},
+): () => void {
   Object.assign(gui.domElement.style, {
     position: "absolute",
     top: "8px",
@@ -136,27 +157,32 @@ export function configureGui(
   });
   const p = scene.params;
   const waves = gui.addFolder("Waves");
-  waves.add(p, "windSpeed", 2, 60, 0.5).name("wind speed").onChange(rebuild);
-  waves.add(p, "windAngle", 0, 360, 1).name("wind angle").onChange(rebuild);
-  waves.add(p, "amplitude", 0.2, 16, 0.1).onChange(rebuild);
-  waves
-    .add(p, "patchSize", 60, 600, 1)
-    .name("patch size (m)")
-    .onChange(rebuild);
+  const controllers = [] as Array<{ updateDisplay(): void }>;
+  const add = <T extends { onChange(callback: () => void): T; updateDisplay(): void }>(controller: T, change = notifyChange) => {
+    controller.onChange(change);
+    controllers.push(controller);
+    return controller;
+  };
+  add(waves.add(p, "windSpeed", 2, 60, 0.5).name("wind speed"), () => { rebuild(); notifyChange(); });
+  add(waves.add(p, "windAngle", 0, 360, 1).name("wind angle"), () => { rebuild(); notifyChange(); });
+  add(waves.add(p, "amplitude", 0.2, 16, 0.1), () => { rebuild(); notifyChange(); });
+  add(waves.add(p, "patchSize", 60, 600, 1).name("patch size (m)"), () => { rebuild(); notifyChange(); });
 
   const look = gui.addFolder("Look");
-  look.add(p, "heightScale", 0, 80, 0.5).name("height");
-  look.add(p, "choppyScale", 0, 40, 0.5).name("choppiness");
-  look.add(p, "foamScale", 0.05, 1.2, 0.01).name("foam");
+  add(look.add(p, "heightScale", 0, 80, 0.5).name("height"));
+  add(look.add(p, "choppyScale", 0, 40, 0.5).name("choppiness"));
+  add(look.add(p, "foamScale", 0.05, 1.2, 0.01).name("foam"));
+  add(look.add(p, "renderScale", 0.5, 1, 0.01).name("render scale"), () => { resizeQuality(); notifyChange(); });
 
   const sun = gui.addFolder("Sun");
-  sun.add(p, "sunElevation", -2, 60, 0.5).name("elevation");
-  sun.add(p, "sunAzimuth", 0, 360, 1).name("azimuth");
+  add(sun.add(p, "sunElevation", -2, 60, 0.5).name("elevation"));
+  add(sun.add(p, "sunAzimuth", 0, 360, 1).name("azimuth"));
 
   const sim = gui.addFolder("Sim");
-  sim.add(p, "timeScale", 0, 3, 0.05).name("speed");
-  sim.add(view, "autoRotate").name("auto-rotate");
-  sim.add(view, "rotateSpeed", 0.02, 0.6, 0.01).name("rotate speed");
+  add(sim.add(p, "timeScale", 0, 3, 0.05).name("speed"));
+  add(sim.add(view, "autoRotate").name("auto-rotate"));
+  add(sim.add(view, "rotateSpeed", 0.02, 0.6, 0.01).name("rotate speed"));
+  return () => controllers.forEach((controller) => controller.updateDisplay());
 }
 
 function runCleanups(cleanups: readonly (() => void)[]): void {

@@ -2,6 +2,7 @@ import GUI from 'lil-gui';
 import { clock, frameLoop, surface, type Gpu } from 'vgpu';
 
 import { createScene, DEFAULT_MODE, MODES, type AaMode } from './scene';
+import { createAntiAliasingWebMcpController } from './webmcp';
 
 interface RendererOptions {
   readonly canvas: HTMLCanvasElement;
@@ -17,6 +18,8 @@ export function createRenderer({ canvas }: RendererOptions) {
   let resizeFrame = 0;
   let pendingSize: readonly [number, number] | undefined;
   let lastDpr = typeof window === 'undefined' ? 1 : window.devicePixelRatio;
+  let refreshGui = () => {};
+  let webMcp: ReturnType<typeof createAntiAliasingWebMcpController> | undefined;
 
   const fail = (error: unknown): never => {
     dispose();
@@ -82,8 +85,23 @@ export function createRenderer({ canvas }: RendererOptions) {
       right: '16px',
       zIndex: '10',
     });
-    gui.add({ mode }, 'mode', MODES).name('Mode').onChange((next: AaMode) => {
+    const guiState = { mode };
+    const modeController = gui.add(guiState, 'mode', MODES).name('Mode').onChange((next: AaMode) => {
       mode = next;
+      webMcp?.notifyManualChange();
+    });
+    refreshGui = () => {
+      guiState.mode = mode;
+      modeController.updateDisplay();
+    };
+    webMcp = createAntiAliasingWebMcpController({
+      canvas,
+      getMode: () => mode,
+      setMode: (next) => {
+        mode = next;
+      },
+      refreshGui: () => refreshGui(),
+      isDisposed: () => disposed,
     });
 
     observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(measure);
@@ -100,5 +118,5 @@ export function createRenderer({ canvas }: RendererOptions) {
     fail(error);
   });
 
-  return { ready, dispose };
+  return { ready, dispose, getWebMcpController: () => webMcp?.controller };
 }

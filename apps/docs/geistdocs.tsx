@@ -23,8 +23,8 @@ export const github = {
   // content/docs lives under apps/docs, and the vanilla template's path
   // (content/docs/{path}) pointed "edit this page" at a 404.
   editPath: "apps/docs/content/docs/{path}",
-  owner: "vercel-labs",
-  repo: "vgpu",
+  owner: "ihansel",
+  repo: "vgpu-webmcp",
 };
 
 export const nav = [
@@ -86,6 +86,11 @@ export const agent = {
       label: "MCP endpoint",
       href: "https://vgpu.sh/api/mcp",
       description: "Stateless, read-only MCP tools for VGPU documentation and verified examples",
+    },
+    {
+      label: "WebMCP Agent Lab",
+      href: "/docs/webmcp-agent-lab",
+      description: "Live-page controls and bounded browser benchmarks for selected vGPU examples",
     },
   ],
   api: {

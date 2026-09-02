@@ -397,6 +397,7 @@ test("binds every lil-gui control to its real object and rebuild callbacks", () 
     ["heightScale", "height", 0, 80, 0.5],
     ["choppyScale", "choppiness", 0, 40, 0.5],
     ["foamScale", "foam", 0.05, 1.2, 0.01],
+    ["renderScale", "render scale", 0.5, 1, 0.01],
     ["sunElevation", "elevation", -2, 60, 0.5],
     ["sunAzimuth", "azimuth", 0, 360, 1],
     ["timeScale", "speed", 0, 3, 0.05],

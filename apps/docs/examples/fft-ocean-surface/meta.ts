@@ -19,6 +19,7 @@ export const meta = {
   files: [
     "index.tsx",
     "renderer.ts",
+    "webmcp.ts",
     "scene.ts",
     "params.wgsl",
     "fft-core.wgsl",

@@ -4,6 +4,7 @@ import { Component, lazy, Suspense, useEffect, useMemo, useState, type ErrorInfo
 import { getExampleComponentLoader } from '@/lib/example-components';
 import { createDeduplicatedExampleErrorReporter, ExampleErrorReporterProvider } from '@/lib/example-error-reporter';
 import { type ExampleSlug } from '@/lib/example-slugs';
+import { installPreviewWebMcpBridge } from '@/lib/webmcp/preview-bridge';
 
 interface ExampleCanvasProps {
   slug: ExampleSlug;
@@ -74,6 +75,10 @@ function PreviewHost({ slug }: { slug: ExampleSlug }) {
     (error) => setAsyncError(messageOf(error)),
     (error) => postPreviewError(slug, messageOf(error)),
   ), [slug]);
+
+  useEffect(() => {
+    return installPreviewWebMcpBridge(slug);
+  }, [slug]);
 
   useEffect(() => {
     const reportWindowError = (event: ErrorEvent) => {

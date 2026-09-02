@@ -1,0 +1,37 @@
+---
+title: WebMCP Agent Lab
+description: Inspect, tune, and compare selected live vGPU examples with safe page tools.
+---
+
+The WebMCP Agent Lab is a focused browser-side extension of the vGPU example gallery. It lets a browser agent collaborate with the live renderer in the current tab while the person watches and retains control.
+
+Try the [FFT ocean surface](/examples/fft-ocean-surface) or [Anti-Aliasing](/examples/anti-aliasing) example in a WebGPU and WebMCP-capable browser.
+
+## Available page tools
+
+| Tool | Purpose |
+| --- | --- |
+| `get_example_capabilities` | Read public parameters, types, ranges, defaults, benchmark profiles, and limits. |
+| `get_example_state` | Inspect current values and coarse canvas size. |
+| `set_example_controls` | Apply a validated batch to the real visible controls. |
+| `reset_example` | Restore every declared default. |
+| `benchmark_example` | Compare fixed profiles with short bounded browser frame-time samples. |
+| `create_comparison` | Keep a concise recommendation visible and optionally apply the tested profile. |
+
+## Conventional MCP versus WebMCP
+
+The existing vGPU MCP endpoint searches and reads published documentation and verified examples. It is transport-oriented and works without an open vGPU page. The Agent Lab's WebMCP tools belong to the current page: they can read its live public state, update the same objects used by `lil-gui`, and run a bounded comparison at the current canvas size.
+
+Use conventional MCP to learn and source. Use WebMCP when a person and agent need to inspect and tune the renderer they are both looking at.
+
+## Benchmark interpretation
+
+Each profile gets a short warm-up and a fixed sample period. The result reports median and p95 frame time, approximate FPS, slow-frame ratio, sample count, duration, and canvas size. These values include browser scheduling, display refresh, and other system work. They are useful for within-session comparisons, not as laboratory-grade GPU measurements.
+
+The preview restores the starting public state after testing. A recommendation is applied only through the same validated setting path available to the human controls, and reset remains available.
+
+## Safety and privacy
+
+The same-origin iframe bridge checks the exact origin, window, protocol, slug, preview session, and request id. Inputs are validated against example-declared parameters. Benchmarks have duration and profile-count caps, cancellation, and timeout handling.
+
+No tool permits arbitrary JavaScript or WGSL execution, DOM automation, source editing, screenshots, pixel transfer, filesystem access, or detailed GPU identification. WebMCP is progressive enhancement; the gallery and manual controls still work when the API is unavailable.

@@ -15,6 +15,37 @@ vgpu is a TypeScript library for WebGPU: typed shader imports, a tiny gpu-first 
 
 **View full documentation and examples on [vgpu.sh](https://vgpu.sh).**
 
+## WebMCP Agent Lab fork
+
+This hackathon fork adds a human-visible WebMCP control and benchmarking layer to two live examples while preserving the existing vGPU library, gallery, documentation, conventional MCP server, MIT license, and attribution.
+
+- [FFT ocean surface](/examples/fft-ocean-surface): inspect and batch-edit the real wave, lighting, motion, and render-scale state; compare bounded Performance, Balanced, and Storm at dusk profiles.
+- [Anti-Aliasing](/examples/anti-aliasing): compare Off, MSAA 4×, SSAA 2×, and FXAA at the current canvas size.
+- Six compact page tools cover capabilities, current state, validated changes, reset, bounded benchmarks, and a persistent visible recommendation.
+- The existing `lil-gui`, renderer, canvas, and WebMCP tools share one state path. No DOM clicking, arbitrary code or shader execution, screenshots, pixel buffers, or detailed GPU identifiers are exposed.
+
+Conventional MCP and WebMCP serve different moments:
+
+| Conventional vGPU MCP | WebMCP Agent Lab |
+| --- | --- |
+| Searches and reads vGPU docs and verified examples | Collaborates with the live example in the user's current tab |
+| Runs over hosted HTTP or local stdio | Runs inside the browser page via `document.modelContext` |
+| Knows published source and documentation | Knows current visible control state, canvas size, and short local frame-time samples |
+| Cannot manipulate the current renderer | Updates the same state the user sees and can continue editing |
+
+The exact upstream baseline is recorded in [UPSTREAM_BASE.md](./UPSTREAM_BASE.md). See the [architecture note](./docs/webmcp-agent-lab-architecture.md), [security and privacy model](./docs/webmcp-security-and-privacy.md), [hackathon submission copy](./docs/hackathon-submission.md), and [under-three-minute demo script](./docs/demo-script.md).
+
+### Run the Agent Lab locally
+
+Use Node.js 22 and pnpm 9.15.4, then:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm --dir apps/docs dev
+```
+
+Open `http://localhost:3000/examples/fft-ocean-surface` in a WebGPU-capable browser. WebMCP is progressive enhancement: the examples and in-page comparison controls still work when `document.modelContext` is unavailable. For page-tool testing, use the challenge's supported ChatGPT in-app browser or Chrome 149+ with `chrome://flags/#enable-webmcp-testing` enabled.
+
 ## Quick Start
 
 ```bash
@@ -125,3 +156,5 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for the development setup, bundle budge
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+The original project is © the vGPU contributors. WebMCP Agent Lab additions are clearly bounded in the architecture note and remain under the same MIT license.

@@ -3,6 +3,7 @@ export const AGENT_USE_CASES = [
   "Import and compose .wgsl shader modules like TypeScript",
   "Discover and reuse verified vgpu examples through the CLI or read-only examples API",
   "Give coding agents direct MCP tools for vgpu documentation and verified examples",
+  "Collaborate with selected live example renderers through bounded WebMCP controls and benchmarks",
 ] as const;
 
 export const AGENT_INSTRUCTIONS = [
@@ -11,4 +12,5 @@ export const AGENT_INSTRUCTIONS = [
   "Prefer the public MCP server with automatic or modern protocol negotiation for agent-driven documentation and example discovery.",
   "Use `npx vgpu mcp --project-from-cwd` for an active project workspace or `npx vgpu mcp --output-dir /absolute/path` for a fixed project when a local agent needs downloads.",
   "When download is enabled, pass a relative `destination` beneath the configured output directory.",
+  "On an enabled live example page, inspect WebMCP capabilities before changing controls or comparing only its declared bounded profiles.",
 ] as const;

@@ -10,8 +10,23 @@ export function Example() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const renderer = createRenderer({ canvas });
-    void renderer.ready;
-    return () => renderer.dispose();
+    let announced = false;
+    void renderer.ready.then(() => {
+      const controller = renderer.getWebMcpController();
+      if (!controller) return;
+      announced = true;
+      window.dispatchEvent(new CustomEvent('vgpu-webmcp-controller', {
+        detail: { slug: 'anti-aliasing', controller },
+      }));
+    });
+    return () => {
+      if (announced) {
+        window.dispatchEvent(new CustomEvent('vgpu-webmcp-controller', {
+          detail: { slug: 'anti-aliasing' },
+        }));
+      }
+      renderer.dispose();
+    };
   }, []);
 
   return (

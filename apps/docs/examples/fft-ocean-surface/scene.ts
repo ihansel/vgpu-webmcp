@@ -35,6 +35,7 @@ export const DEFAULT_PARAMS = {
   heightScale: 34,
   choppyScale: 14,
   foamScale: 0.5,
+  renderScale: 0.78,
   sunElevation: 6.5,
   sunAzimuth: 236,
   timeScale: 1,
@@ -154,9 +155,13 @@ export function buildOcean(gpu: Gpu, size: Size) {
       },
     });
 
+    const renderSize = (nextSize: Size): [number, number] => [
+      Math.max(1, Math.round(nextSize[0] * params.renderScale)),
+      Math.max(1, Math.round(nextSize[1] * params.renderScale)),
+    ];
     let hdr = own(
       target(gpu, {
-        size: [size[0], size[1]],
+        size: renderSize(size),
         format: "rgba16float",
         depth: true,
       })
@@ -217,10 +222,11 @@ export function buildOcean(gpu: Gpu, size: Size) {
         ocean.set({ u: oceanUniform(viewProj, position, sun) });
       },
       resize(size: Size) {
-        if (hdr.size[0] === size[0] && hdr.size[1] === size[1]) return;
+        const nextSize = renderSize(size);
+        if (hdr.size[0] === nextSize[0] && hdr.size[1] === nextSize[1]) return;
         const next = own(
           target(gpu, {
-            size: [size[0], size[1]],
+            size: nextSize,
             format: "rgba16float",
             depth: true,
           })
