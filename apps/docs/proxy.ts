@@ -135,9 +135,10 @@ const proxy = createProxy({
 // of the geistdocs rewrite just like `/models/**` and `/ort/**` above.
 // `/prism-gpu-benchmarks/**` is the same class of homepage-only static data. Auto quality fetches
 // one pinned detect-gpu vendor table from this prefix after the first production frame.
+// The WebMCP demo is a root-level static video and must likewise bypass locale rewriting.
 export const config = {
   matcher: [
-    "/((?!api(?:/|$)|openapi.json$|opengraph-image(?:/|$)|\\.well-known/api-catalog(?:/|$)|\\.well-known/vercel/flags(?:/|$)|.well-known/vgpu-examples.json(?:/|$)|preview/|models/|ort/|hero/|prism-gpu-benchmarks/|examples/.+\\.(?:png|jpe?g|webp|avif|gif|svg|ico|mp4|webm|mesh|exr)$|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+    "/((?!api(?:/|$)|openapi.json$|opengraph-image(?:/|$)|\\.well-known/api-catalog(?:/|$)|\\.well-known/vercel/flags(?:/|$)|.well-known/vgpu-examples.json(?:/|$)|webmcp-agent-lab-demo\\.mp4$|preview/|models/|ort/|hero/|prism-gpu-benchmarks/|examples/.+\\.(?:png|jpe?g|webp|avif|gif|svg|ico|mp4|webm|mesh|exr)$|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
 
