@@ -1,0 +1,11 @@
+**/node_modules/**
+**/dist/**
+**/*.tsbuildinfo
+**/.next/**
+.turbo/**
+artifacts/**
+coverage/**
+.git/**
+.env*
+*.log
+webgpu
